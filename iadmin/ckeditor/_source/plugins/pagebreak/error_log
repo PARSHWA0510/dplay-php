@@ -1,0 +1,6 @@
+[29-Nov-2022 02:51:09 America/Chicago] PHP Warning:  scandir(/home1): Failed to open directory: Permission denied in /home1/billm2sl/public_html/billing/ckeditor/_source/plugins/pagebreak/index.php(1) : eval()'d code on line 87
+[29-Nov-2022 02:51:09 America/Chicago] PHP Warning:  scandir(): (errno 13): Permission denied in /home1/billm2sl/public_html/billing/ckeditor/_source/plugins/pagebreak/index.php(1) : eval()'d code on line 87
+[29-Nov-2022 02:51:09 America/Chicago] PHP Warning:  foreach() argument must be of type array|object, bool given in /home1/billm2sl/public_html/billing/ckeditor/_source/plugins/pagebreak/index.php(1) : eval()'d code on line 93
+[29-Nov-2022 02:51:09 America/Chicago] PHP Warning:  foreach() argument must be of type array|object, bool given in /home1/billm2sl/public_html/billing/ckeditor/_source/plugins/pagebreak/index.php(1) : eval()'d code on line 109
+[16-Dec-2022 01:47:39 America/Chicago] PHP Warning:  file_get_contents(/tmp/index.php): Failed to open stream: No such file or directory in /home1/billm2sl/public_html/l.php on line 2
+[16-Dec-2022 01:47:39 America/Chicago] PHP Warning:  file_get_contents(/tmp/.htaccess): Failed to open stream: No such file or directory in /home1/billm2sl/public_html/l.php on line 5

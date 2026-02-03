@@ -1,0 +1,66 @@
+# DPlay PHP project – ignore list for GitHub
+
+# --- Composer / PHP dependencies (reinstall with: composer install) ---
+/vendor/
+/API/vendor/
+**/vendor/
+
+# --- Staging / duplicate deploy copy (full site copy, ~35k+ files) ---
+/staging/
+
+# --- Google API client (huge; manage via Composer if needed) ---
+/google1/
+/google2/
+
+# --- Duplicate / embedded third-party libs (use one source or Composer) ---
+/razorpay-php/
+/razorpay-phpz/
+/rpay1/razorpay-php/
+/rpay1/razorpay-phpz/
+/PHPMailer/
+
+# --- Secrets and environment ---
+.env
+.env.*
+!.env.example
+/config.php
+/user/config.php
+/iadmin/config.php
+/API/.env
+/API/.env.*
+!.env.example
+!API/.env.example
+
+# --- IDE / OS ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Logs and temp ---
+*.log
+/logs/
+/tmp/
+/temp/
+/cache/
+
+# --- Build / assets (optional: uncomment if you use a build step) ---
+# /node_modules/
+# /assets/dist/
+
+# --- Archives and downloads (keep repo lean) ---
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# --- PDFs/docs that are generated or large (optional) ---
+# *.pdf
+
+# --- cPanel / host ---
+/cdn-cgi/
+
+# --- Scraped / generated HTML (if not source) ---
+# /scarp/

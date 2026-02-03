@@ -1,0 +1,16 @@
+{
+  "name": "dplay/api",
+  "description": "DPlay API (Auth, Discover, Booking)",
+  "require": {
+    "php": ">=8.0",
+    "slim/slim": "^4.10",
+    "slim/psr7": "^1.7",
+    "vlucas/phpdotenv": "^5.5",
+    "firebase/php-jwt": "^6.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}

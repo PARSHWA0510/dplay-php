@@ -1,0 +1,24 @@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<select id="fruits" style="width: 200px">
+  <option value="apple" data-image="callnow.png">Apple</option>
+  <option value="banana" data-image="callnow.png">Banana</option>
+  <option value="grape" data-image="callnow.png">Grape</option>
+</select>
+
+<script>
+$('#fruits').select2({
+  templateResult: function (state) {
+    if (!state.id) return state.text;
+    var img = $(state.element).data('image');
+    return $('<span><img src="images/' + img + '" style="width:20px; margin-right:8px;">' + state.text + '</span>');
+  },
+  templateSelection: function (state) {
+    if (!state.id) return state.text;
+    var img = $(state.element).data('image');
+    return $('<span><img src="images/' + img + '" style="width:20px; margin-right:8px;">' + state.text + '</span>');
+  }
+});
+</script>

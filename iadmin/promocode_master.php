@@ -1,0 +1,511 @@
+<?php
+error_reporting( 0 );
+session_start();
+ob_start();
+include( '../config.php' );
+$admin_id = $_SESSION[ 'admin_id' ];
+$company_id = $_SESSION[ 'company_id' ];
+if ( $admin_id == '' || $company_id == '' ) {
+  ?>
+<script>window.location.href="index.php";</script>
+<?php } ?>
+<!doctype html>
+<html lang="en">
+<head>
+<title>Sport CRM Panel</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+<!-- favicons -->
+<link rel="apple-touch-icon" href="img/favicon-apple.png">
+<link rel="icon" href="img/favicon.png">
+<!-- Material design icons CSS -->
+<link rel="stylesheet" href="vendor/materializeicon/material-icons.css">
+<!-- aniamte CSS -->
+<link rel="stylesheet" href="vendor/animatecss/animate.css">
+<!-- swiper carousel CSS -->
+<link rel="stylesheet" href="vendor/swiper/css/swiper.min.css">
+<!-- daterange CSS -->
+<link rel="stylesheet" href="vendor/bootstrap-daterangepicker-master/daterangepicker.css">
+<!-- dataTable CSS -->
+<link rel="stylesheet" href="vendor/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+<!-- jvector map CSS -->
+<link rel="stylesheet" href="vendor/jquery-jvectormap/jquery-jvectormap-2.0.3.css">
+<!-- app CSS -->
+<link id="theme" rel="stylesheet" href="css/purplesidebar.css" type="text/css">
+<link href="icon_fonts_assets/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+</head>
+<body class="fixed-header sidebar-right-close">
+<!-- page loader --> 
+<!-- page loader ends  -->
+<div class="wrapper"> 
+  <!-- main header -->
+  <?php include 'header.php' ?>
+  <?php include 'left.php' ?>
+  <?php include 'right.php' ?>
+  <!-- setting sidebar ends --> 
+  <!-- content page title -->
+  <div class="container-fluid bg-light-opac">
+    <div class="row">
+      <div class="container my-3 main-container">
+        <div class="row align-items-center">
+          <div class="col">
+            <h2 class="content-color-primary page-title">Manage Promo Code </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content page title ends --> 
+  <!-- content page -->
+  <div class="container mt-4 main-container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card mb-4">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="element-wrapper">
+                <div class="element-box">
+                  <?php
+                  if ( $_POST[ 'insert' ] ) {
+                    $name = $_REQUEST[ 'name' ];
+                    $ure = mysqli_query( $con, "select * from promocode_master where name = '$name'" );
+                    $urowno = mysqli_num_rows( $ure );
+                    if ( $urowno > 0 ) {
+                      ?>
+                  <script>alert('Name Already Exist. Please Change');</script> 
+                  <script language="javascript">window.location.href="promocode_master.php";</script>
+                  <?php
+                  } else {
+
+                    $venue = implode( '@', ( array )( $_REQUEST[ 'venue' ] ?? [] ) );
+                    $coach = implode( '@', ( array )( $_REQUEST[ 'coach' ] ?? [] ) );
+                    $event = implode( '@', ( array )( $_REQUEST[ 'event' ] ?? [] ) );
+                    $customer = implode( '@', ( array )( $_REQUEST[ 'customer' ] ?? [] ) );
+
+
+                    $sql = mysqli_query( $con, "INSERT INTO `promocode_master` (`name`, `status`, `discount_per`, `discount_rs`, `discount_minvalue`, `discount_maximum`, `discount_start`, `discount_end`, `venue`, `coach`, `event`, `customer`, `max_time_use`) VALUES ('" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "','1','" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_per' ] ) . "','" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_rs' ] ) . "','" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_minvalue' ] ) . "','" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_maximum' ] ) . "','" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_start' ] ) . "','" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_end' ] ) . "','$venue','$coach','$event','$customer','" . mysqli_real_escape_string( $con, $_REQUEST[ 'max_time_use' ] ) . "')" );
+
+                    $id = mysqli_insert_id( $con );
+
+
+                    foreach ( $_POST[ 'venue' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_venue` (`promo_id`,`venue_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+                    foreach ( $_POST[ 'coach' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_coach` (`promo_id`,`coach_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+                    foreach ( $_POST[ 'event' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_event` (`promo_id`,`event_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+                    foreach ( $_POST[ 'customer' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_customer` (`promo_id`,`customer_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+
+                    ?>
+                  <script language="javascript">window.location.href="promocode_master.php";</script>
+                  <?php
+                  }
+                  }
+                  ?>
+                  <?php
+                  $id = $_GET[ 'uid' ];
+
+
+                  if ( isset( $_REQUEST[ 'update' ] ) ) {
+
+                    $venue = implode( '@', ( array )( $_REQUEST[ 'venue' ] ?? [] ) );
+                    $coach = implode( '@', ( array )( $_REQUEST[ 'coach' ] ?? [] ) );
+                    $event = implode( '@', ( array )( $_REQUEST[ 'event' ] ?? [] ) );
+                    $customer = implode( '@', ( array )( $_REQUEST[ 'customer' ] ?? [] ) );
+
+                    $uupQry = "UPDATE promocode_master SET name='" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "',discount_per='" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_per' ] ) . "',discount_rs='" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_rs' ] ) . "',discount_minvalue='" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_minvalue' ] ) . "',discount_maximum='" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_maximum' ] ) . "',discount_start='" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_start' ] ) . "',discount_end='" . mysqli_real_escape_string( $con, $_REQUEST[ 'discount_end' ] ) . "',venue='$venue',coach='$coach',event='$event',customer='$customer',max_time_use='" . mysqli_real_escape_string( $con, $_REQUEST[ 'max_time_use' ] ) . "' WHERE id='$id'";
+                    $uuresult = mysqli_query( $con, $uupQry );
+
+
+                    $delete = "DELETE FROM promocode_venue WHERE promo_id = '$id'";
+                    mysqli_query( $con, $delete );
+
+                    $delete = "DELETE FROM promocode_coach WHERE promo_id = '$id'";
+                    mysqli_query( $con, $delete );
+
+                    $delete = "DELETE FROM promocode_event WHERE promo_id = '$id'";
+                    mysqli_query( $con, $delete );
+
+                    $delete = "DELETE FROM promocode_customer WHERE promo_id = '$id'";
+                    mysqli_query( $con, $delete );
+
+                    foreach ( $_POST[ 'venue' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_venue` (`promo_id`,`venue_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+                    foreach ( $_POST[ 'coach' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_coach` (`promo_id`,`coach_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+                    foreach ( $_POST[ 'event' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_event` (`promo_id`,`event_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+                    foreach ( $_POST[ 'customer' ] as $key => $val ) {
+                      if ( $val != '' ) {
+                        $qry_main = "INSERT INTO `promocode_customer` (`promo_id`,`customer_id`,`promo_code` ) VALUES ('$id','$val','" . mysqli_real_escape_string( $con, $_REQUEST[ 'name' ] ) . "')";
+                        mysqli_query( $con, $qry_main );
+                      }
+                    }
+
+
+                    ?>
+                  <script language="javascript">window.location.href="promocode_master.php";</script>
+                  <?php  } ?>
+                  <?php
+                  $ure = mysqli_query( $con, "select * from promocode_master where id = '$id'" );
+                  $urow = mysqli_fetch_array( $ure );
+                  ?>
+                  <form autocomplete="off" name="form" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label> Discount Name <span class="required">*</span></label>
+                          <input class="form-control" autofocus  required value="<?php echo $urow['name']; ?>" name="name" type="text">
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label> Discount(%) <span class="required">*</span></label>
+                          <input class="form-control"   required value="<?php echo $urow['discount_per']; ?>" name="discount_per" type="text">
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label> Discount(Rs) <span class="required">*</span></label>
+                          <input class="form-control"   required value="<?php echo $urow['discount_rs']; ?>" name="discount_rs" type="text">
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label>Min. Value Discount<span class="required">*</span></label>
+                          <input class="form-control"   required value="<?php echo $urow['discount_minvalue']; ?>" name="discount_minvalue" type="text">
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label> Max Discount <span class="required">*</span></label>
+                          <input class="form-control"   required value="<?php echo $urow['discount_maximum']; ?>" name="discount_maximum" type="text">
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label> Discount Start Date <span class="required">*</span></label>
+                          <input class="form-control"   required value="<?php echo $urow['discount_start']; ?>" name="discount_start" type="date">
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label> Discount End Date <span class="required">*</span></label>
+                          <input class="form-control"   required value="<?php echo $urow['discount_end']; ?>" name="discount_end" type="date">
+                        </div>
+                      </div>
+						<div class="col-sm-3">
+                        <div class="form-group">
+                          <label> Max Time Used </label>
+                          <input class="form-control" value="<?php echo $urow['max_time_use']; ?>" name="max_time_use" type="text">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label> Discount Apply on Venue <span class="required">*</span></label>
+                      <?php $venue = explode('@',$urow['venue']);   $ids = "'" . implode("','", $venue) . "'";  ?>
+                      <select class="chosen_select form-control langOpt2" data-placeholder="Choose a Venue..." multiple="multiple" name="venue[]">
+                        <?php
+                        $ures = mysqli_query( $con, "select * from venue_master where status = '1' and id IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>" selected="selected"> <?php echo $urows['name']; ?></option>
+                        <?php } ?>
+                        <?php
+                        $ures = mysqli_query( $con, "select * from venue_master where status = '1' and id NOT IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>"> <?php echo $urows['name']; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label> Discount Apply on Coach <span class="required">*</span></label>
+                      <?php $coach = explode('@',$urow['coach']);   $ids = "'" . implode("','", $coach) . "'";  ?>
+                      <select class="chosen_select form-control langOpt2" data-placeholder="Choose a Coach..." multiple="multiple" name="coach[]">
+                        <?php
+                        $ures = mysqli_query( $con, "select * from user_master where status = '1' and user_type = 'coach' and id IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>" selected="selected"> <?php echo $urows['name']; ?></option>
+                        <?php } ?>
+                        <?php
+                        $ures = mysqli_query( $con, "select * from user_master where status = '1' and user_type = 'coach' and id NOT IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>"> <?php echo $urows['name']; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label> Discount Apply on Event <span class="required">*</span></label>
+                      <?php $event = explode('@',$urow['event']);   $ids = "'" . implode("','", $event) . "'";  ?>
+                      <select class="chosen_select form-control langOpt2" data-placeholder="Choose a Event..." multiple="multiple" name="event[]">
+                        <?php
+                        $ures = mysqli_query( $con, "select * from event_master where status = '1' and id IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>" selected="selected"> <?php echo $urows['name']; ?></option>
+                        <?php } ?>
+                        <?php
+                        $ures = mysqli_query( $con, "select * from event_master where status = '1' and id NOT IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>"> <?php echo $urows['name']; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label> Discount Apply on Indivudal Customer <span class="required">*</span></label>
+                      <?php $customer = explode('@',$urow['customer']);   $ids = "'" . implode("','", $customer) . "'";  ?>
+                      <select class="chosen_select form-control langOpt2" data-placeholder="Choose a Customer..." multiple="multiple" name="customer[]">
+                        <?php
+                        $ures = mysqli_query( $con, "select * from user_master where status = '1' and user_type = 'customer' and id IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>" selected="selected"> <?php echo $urows['contact1']; ?> | <?php echo $urows['email1']; ?></option>
+                        <?php } ?>
+                        <?php
+                        $ures = mysqli_query( $con, "select * from user_master where status = '1' and user_type = 'customer' and id NOT IN ($ids)  order by name asc" );
+                        while ( $urows = mysqli_fetch_array( $ures ) ) {
+                          ?>
+                        <option value="<?php echo $urows[0]; ?>"> <?php echo $urows['contact1']; ?> | <?php echo $urows['email1']; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <link href="multipule_select/jquery.multiselect.css" rel="stylesheet">
+                    <script src="multipule_select/jquery.min.js"></script> 
+                    <script src="multipule_select/jquery.multiselect.js"></script> 
+                    <script>
+						   $('.langOpt2').multiselect({
+									columns: 1,
+									placeholder: 'Please Select',
+									search: true,
+									selectAll: true
+									});
+							</script>
+                    <div class="form-buttons-w">
+                      <?php
+                      if ( $id ) {
+                        ?>
+                      <input type="submit" name="update" value="Update" class="btn btn-primary">
+                      <?php
+                      } else {
+                        ?>
+                      <input type="submit" name="insert" value="Save" class="btn btn-primary">
+                      <input value="Cancel" name="cancel" type="reset" class="btn btn-danger">
+                      <?php } ?>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="card mb-4">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="element-wrapper">
+                <div class="element-box">
+                  <div class="table-responsive">
+                    <table class="table " id="dataTables-example">
+                      <thead>
+                        <tr>
+                          <th> Name</th>
+                          <th> Discount(%) </th>
+                          <th> Discount(Rs) </th>
+                          <th> Min. Value Discount </th>
+                          <th> Max Discount </th>
+                          <th> Start </th>
+                          <th> End </th>
+                          <th> Status </th>
+                          <th> Action </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                        $ure = mysqli_query( $con, "select * from promocode_master" );
+                        while ( $urow = mysqli_fetch_array( $ure ) ) {
+                          ?>
+                        <tr class="showtr">
+                          <td><?php echo $urow['name']; ?></td>
+                          <td><?php echo $urow['discount_per']; ?></td>
+                          <td><?php echo $urow['discount_rs']; ?></td>
+                          <td><?php echo $urow['discount_minvalue']; ?></td>
+                          <td><?php echo $urow['discount_maximum']; ?></td>
+                          <td><?php echo date("d-m-Y", strtotime($urow['discount_start'])); ?></td>
+                          <td><?php echo date("d-m-Y", strtotime($urow['discount_end'])); ?></td>
+                          <td class="center"><div class="material-switch">
+                              <input id="someSwitchOptionSuccess<?php echo $urow[0]; ?>" value="<?php echo $urow[0]; ?>" name="someSwitchOption001" type="checkbox" <?php if($urow['status']=='1') { echo"checked"; }?> onClick="status_cng(this.value);"/>
+                              <label for="someSwitchOptionSuccess<?php echo $urow[0]; ?>" class="label-success"></label>
+                            </div></td>
+                          <td class="center"><a class="btn btn-mini btn-success" href="promocode_master.php?uid=<?php echo $urow[0]; ?>" title=""><i class="icon-pencil"></i></a> <a href="#" id="<?php echo $urow[0]; ?>" class="delete btn btn-mini btn-danger" title="Delete" ><i class="icon-trash"></i></a></td>
+                        </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                    <script>
+function status_cng(value)
+{
+    var pid = value;
+    $.ajax({
+        type:"POST",
+        data:"pid="+pid,
+        url:"promocode_master.php",
+        cache:false,
+        success:function()
+        {
+        }
+    });
+}
+</script>
+                    <?php
+                    if ( $_POST[ 'pid' ] ) {
+                      $pid = $_POST[ 'pid' ];
+                      $ure = mysqli_query( $con, "select * from promocode_master where id = '$pid'" );
+                      $urow = mysqli_fetch_array( $ure );
+                      $ostatus = $urow[ 'status' ];
+                      if ( $ostatus == '1' ) {
+                        $status = '0';
+                      } else {
+                        $status = '1';
+                      }
+                      $uupQry = "UPDATE promocode_master SET status='$status' WHERE id='$pid'";
+                      $uuresult = mysqli_query( $con, $uupQry );
+                    }
+                    ?>
+                    <script src="js/jquery-3.2.1.min.js"></script> 
+                    <script type="text/javascript">
+$(function() {
+$(".delete").click(function(){
+var element = $(this);
+var del_id = element.attr("id");
+var info = 'id=' + del_id;
+if(confirm("Are you sure you want to Delete?"))
+{
+ $.ajax({
+   type: "POST",
+   url: "promocode_master.php",
+   data: info,
+   success: function(){
+ }
+});
+  $(this).parents(".showtr").animate({ backgroundColor: "#003" }, "slow")
+  .animate({ opacity: "hide" }, "slow");
+ }
+return false;
+});
+});
+</script>
+                    <?php
+                    if ( $_POST[ 'id' ] ) {
+                      $id = $_POST[ 'id' ];
+                      $delete = "DELETE FROM promocode_master WHERE id = '$id'";
+                      mysqli_query( $con, $delete );
+
+                      $delete = "DELETE FROM promocode_coach WHERE coach_id = '$id'";
+                      mysqli_query( $con, $delete );
+					  
+					  $delete = "DELETE FROM promocode_customer WHERE customer_id = '$id'";
+                      mysqli_query( $con, $delete );
+					  
+					  $delete = "DELETE FROM promocode_event WHERE event_id = '$id'";
+                      mysqli_query( $con, $delete );
+
+					  $delete = "DELETE FROM promocode_venue WHERE venue_id = '$id'";
+                      mysqli_query( $con, $delete );
+
+                    }
+                    ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content page ends --> 
+</div>
+<?php include 'footer.php' ?>
+<script src="js/popper.min.js"></script> 
+<script src="vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script> 
+<!-- Cookie jquery file --> 
+<script src="vendor/cookie/jquery.cookie.js"></script> 
+<!-- sparklines chart jquery file --> 
+<script src="vendor/sparklines/jquery.sparkline.min.js"></script> 
+<!-- Circular progress gauge jquery file --> 
+<script src="vendor/circle-progress/circle-progress.min.js"></script> 
+<!-- Swiper carousel jquery file --> 
+<script src="vendor/swiper/js/swiper.min.js"></script> 
+<!-- Chart js jquery file --> 
+<script src="vendor/chartjs/Chart.bundle.min.js"></script> 
+<script src="vendor/chartjs/utils.js"></script> 
+<!-- DataTable jquery file --> 
+<script src="vendor/DataTables-1.10.18/js/jquery.dataTables.min.js"></script> 
+<script src="vendor/DataTables-1.10.18/js/dataTables.bootstrap4.min.js"></script> 
+<!-- datepicker jquery file --> 
+<script src="vendor/bootstrap-daterangepicker-master/moment.js"></script> 
+<script src="vendor/bootstrap-daterangepicker-master/daterangepicker.js"></script> 
+<!-- jVector map jquery file --> 
+<script src="vendor/jquery-jvectormap/jquery-jvectormap.js"></script> 
+<script src="vendor/jquery-jvectormap/jquery-jvectormap-world-mill-en.js"></script> 
+<!-- circular progress file --> 
+<script src="vendor/circle-progress/circle-progress.min.js"></script> 
+<!-- Application main common jquery file --> 
+<script src="js/main.js"></script> 
+<!-- page specific script --> 
+<script>
+        "use strict"
+        $(document).ready(function() {
+            $('#dataTables-example').DataTable({
+                "order": [
+                    [0, "asc"]
+                ]
+            });
+        });
+
+    </script> 
+<!-- page specific script -->
+</body>
+</html>

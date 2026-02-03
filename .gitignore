@@ -18,6 +18,7 @@
 /rpay1/razorpay-php/
 /rpay1/razorpay-phpz/
 /PHPMailer/
+/iadmin/PHPMailer/
 
 # --- Secrets and environment ---
 .env

@@ -3,13 +3,12 @@ $ureurl=mysqli_query($con,"select * from website_url");
 $rowurl=mysqli_fetch_array($ureurl);
 $siteurl_link = $rowurl['url_link']; 
 
+require __DIR__ . '/vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-include 'PHPMailer/src/Exception.php';
-include 'PHPMailer/src/PHPMailer.php';
-include 'PHPMailer/src/SMTP.php';
+use Razorpay\Api\Api;
+use Razorpay\Api\Errors\SignatureVerificationError;
 
 $sqllr = mysqli_query($con,"SELECT * FROM api_email WHERE ins_type='Razorpay'");
 $rser = mysqli_fetch_array($sqllr);
@@ -17,10 +16,6 @@ $keyId = $rser['title1'];
 $keySecret = $rser['title2'];
 $displayCurrency = 'INR';
 
-
-require('razorpay-php/Razorpay.php');
-use Razorpay\Api\Api;
-use Razorpay\Api\Errors\SignatureVerificationError;
 
 $success = true;
 

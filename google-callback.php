@@ -5,7 +5,7 @@ $rowurl=mysqli_fetch_array($ureurl);
 $siteurl_link = $rowurl['url_link']; 
 
 
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 # Google API Config
 $client = new Google\Client();

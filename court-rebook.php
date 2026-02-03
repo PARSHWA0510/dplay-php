@@ -1,11 +1,8 @@
 <?php  error_reporting(0); session_start(); include('config.php'); $cartid = $_SESSION['cartid']; 
+require __DIR__ . '/vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-include 'PHPMailer/src/Exception.php';
-include 'PHPMailer/src/PHPMailer.php';
-include 'PHPMailer/src/SMTP.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

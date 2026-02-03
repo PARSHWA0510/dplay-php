@@ -1,6 +1,6 @@
 <?php error_reporting(0);
-require('config.php');
-require('razorpay-php/Razorpay.php');
+require __DIR__ . '/../config.php';
+require __DIR__ . '/../vendor/autoload.php';
 session_start();
 
 // Create the Razorpay Order

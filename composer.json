@@ -1,0 +1,14 @@
+{
+    "name": "dplay/dplay-php",
+    "description": "DPlay – PHP site (venues, courts, coaches, events) + API",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "google/apiclient": "^2.15",
+        "phpmailer/phpmailer": "^6.9",
+        "razorpay/razorpay": "^2.9"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

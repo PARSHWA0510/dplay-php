@@ -1,4 +1,6 @@
-<?php include('config.php'); $order_id = 'order_RMVLy2vnr3i9f3';
+<?php include('config.php');
+require __DIR__ . '/vendor/autoload.php';
+$order_id = 'order_RMVLy2vnr3i9f3';
 $uretbo=mysqli_query($con,"select * from user_order where order_id = '$order_id'");
 $urowtbo=mysqli_fetch_array($uretbo);
 $user_id = $urowtbo['user_id'];
@@ -329,10 +331,6 @@ DPlays Team
 	use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
-
-    include 'PHPMailer/src/Exception.php';
-    include 'PHPMailer/src/PHPMailer.php';
-    include 'PHPMailer/src/SMTP.php';
 
     try {
         $mail = new PHPMailer(true);

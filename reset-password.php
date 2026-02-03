@@ -1,12 +1,9 @@
 <?php  error_reporting(0); session_start(); include('config.php'); ?>
 <?php  date_default_timezone_set("Asia/Kolkata");  $todaydatetime = date('Y-m-d H:i:s');  $todaydate = date('Y-m-d'); $user_id = $_SESSION['user_id'];
+require __DIR__ . '/vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-include 'PHPMailer/src/Exception.php';
-include 'PHPMailer/src/PHPMailer.php';
-include 'PHPMailer/src/SMTP.php';
  ?>
 <!DOCTYPE html>
 <html lang="en">

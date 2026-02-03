@@ -1,21 +1,18 @@
 <?php  error_reporting(0);
 session_start();
 ob_start();
-include('../config.php');
-  $admin_id = $_SESSION['admin_id'];
-  $company_id = $_SESSION['company_id'];
-if($admin_id == '' || $company_id == '')
-{
-?>
-<script>window.location.href="index.php";</script>
-<?php }
+include(__DIR__ . '/../config.php');
+require __DIR__ . '/../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-include 'PHPMailer/src/Exception.php';
-include 'PHPMailer/src/PHPMailer.php';
-include 'PHPMailer/src/SMTP.php';
+$admin_id = $_SESSION['admin_id'];
+$company_id = $_SESSION['company_id'];
+if ($admin_id == '' || $company_id == '') {
+?>
+<script>window.location.href="index.php";</script>
+<?php }
  ?>
 <!doctype html>
 <html lang="en">

@@ -4,13 +4,10 @@ $ureurl=mysqli_query($con,"select * from website_url");
 $rowurl=mysqli_fetch_array($ureurl);
 $siteurl_link = $rowurl['url_link']; 
 
+require __DIR__ . '/vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-include 'PHPMailer/src/Exception.php';
-include 'PHPMailer/src/PHPMailer.php';
-include 'PHPMailer/src/SMTP.php';
  ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,10 +1,10 @@
 <?php
 
-require('config.php');
+require __DIR__ . '/../config.php';
 
 session_start();
 
-require('razorpay-php/Razorpay.php');
+require __DIR__ . '/../vendor/autoload.php';
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
 

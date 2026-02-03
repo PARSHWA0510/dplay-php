@@ -60,7 +60,7 @@ So: **BE and FE are not in separate repos** – they are “backend-rendered PHP
   - **Facebook:** under `vendor/facebook/`.
   - **Guzzle, Monolog, etc.:** under root `vendor/`.
 
-**Recommendation:** Add a **root `composer.json`** and move these to `require` so you have one `vendor/` and no duplicated libs. Until then, `.gitignore` excludes these folders so the repo stays small; document in README how to get them (e.g. “run `composer install` at root when available” or “restore from backup”).
+**Done:** A **root `composer.json`** is in place with `google/apiclient`, `phpmailer/phpmailer`, and `razorpay/razorpay`. Run **`composer install`** at the project root; the app uses `vendor/autoload.php` instead of the old folders. “run `composer install` at root when available” or “restore from backup”).
 
 ---
 
@@ -71,7 +71,7 @@ A **root `.gitignore`** is already added. It excludes:
 - **Composer:** `vendor/`, `API/vendor/`
 - **Staging:** `staging/`
 - **Google clients:** `google1/`, `google2/`
-- **Embedded libs:** `razorpay-php/`, `razorpay-phpz/`, `rpay1/`, `PHPMailer/` (you can later keep only app code under something like `app/rpay1/` and use Composer for SDK)
+- **Embedded libs:** `razorpay-php/`, `razorpay-phpz/`, `rpay1/razorpay-php/`, `rpay1/razorpay-phpz/`, `PHPMailer/`, `iadmin/PHPMailer/` (root app uses root `vendor/` via Composer)
 - **Secrets:** `.env`, `.env.*`, `config.php`, `API/.env`
 - **IDE/OS:** `.idea/`, `.vscode/`, `.DS_Store`, etc.
 - **Logs/temp:** `*.log`, `logs/`, `tmp/`, `temp/`, `cache/`

@@ -6,7 +6,7 @@ $keyId = $rser['title1'];
 $keySecret = $rser['title2'];
 $displayCurrency = 'INR';
 
-require('razorpay-php/Razorpay.php');
+require __DIR__ . '/vendor/autoload.php';
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
 

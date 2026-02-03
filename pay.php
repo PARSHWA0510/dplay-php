@@ -2,7 +2,7 @@
 $keyId = 'rzp_test_PUUEYQpOojDGSR';
 $keySecret = 'an1qS6pX9NkzFdlef1IWCNCL';
 $displayCurrency = 'INR';
-require('razorpay-php/Razorpay.php');
+require __DIR__ . '/vendor/autoload.php';
 session_start();
 
 // Create the Razorpay Order

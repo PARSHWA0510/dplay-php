@@ -1,7 +1,7 @@
 <?php session_start();
 
-require_once 'vendor/autoload.php'; // Path to Google API Client
-require_once 'config.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/config.php';
 
  session_start();
 // Your Google OAuth 2.0 Client ID

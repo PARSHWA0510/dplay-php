@@ -422,7 +422,7 @@ $keyId = $rser['title1'];
 $keySecret = $rser['title2'];
 $displayCurrency = 'INR';
 
-require('razorpay-php/Razorpay.php');
+require __DIR__ . '/vendor/autoload.php';
 session_start();
 // Create the Razorpay Order
 use Razorpay\Api\Api;
